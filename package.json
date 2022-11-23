@@ -1,0 +1,31 @@
+{
+  "name": "pnp-web-proj-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "typeorm": "^0.3.10"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "clear-dist": "node clear-dist.js",
+    "build": "tsc",
+    "prebuild": "yarn run lint:fix && yarn run clear-dist",
+    "start": "node --experimental-specifier-resolution=node ./dist/main.js",
+    "prestart": "yarn run build",
+    "test": "node --experimental-specifier-resolution=node ./dist/test.js",
+    "pretest": "yarn run build"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "typescript": "^4.8.2"
+  }
+}

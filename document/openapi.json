@@ -1,0 +1,422 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PnP Web Project Backend API",
+    "version": "0.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://SERVER_URL/api"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "description": "Get Login Token",
+      "get": {
+        "operationId": "login",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Email"
+          },
+          {
+            "$ref": "#/components/parameters/Password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "description": "Login Token"
+                        },
+                        "tokenExpireTime": {
+                          "$ref": "#/components/schemas/ExpireTime"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "description": "Sign Up New User",
+      "post": {
+        "operationId": "signup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "tempStateCode": {
+                          "type": "string"
+                        },
+                        "tempStateCodeExpireTime": {
+                          "$ref": "#/components/schemas/ExpireTime"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup/auth": {
+      "description": "Verifying Sent E-Mail Sign Up Code",
+      "post": {
+        "operationId": "signupMailCodeVerifying",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tempStateCode": {
+                    "type": "string"
+                  },
+                  "mailCode": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string"
+                        },
+                        "loginToken": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup/resend": {
+      "description": "Re-Send Sign Up E-Mail",
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tempStateCode": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully Responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "tempStateCodeExpireTime": {
+                          "$ref": "#/components/schemas/ExpireTime"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/book": {
+      "description": "Search Book"
+    },
+    "/search/movie": {
+      "description": "Search Movie"
+    },
+    "/user": {
+      "description": "About User Info"
+    },
+    "/user/review/books": {
+      "description": "User Book Reviews"
+    },
+    "/user/review/movies": {
+      "description": "User Movie Reviews"
+    },
+    "/book/{isbn}": {
+      "description": "Book Details With Public User Reviews"
+    },
+    "/movie/{uuid}": {
+      "description": "Movie Details With Public User Reviews"
+    },
+    "/book/{isbn}/review": {
+      "description": "Send or Edit Review About Book"
+    },
+    "/movie/{uuid}/review": {
+      "description": "Send or Edit Review About Movie"
+    }
+  },
+  "components": {
+    "parameters": {
+      "Email": {
+        "name": "email",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Password": {
+        "name": "password",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "LoginToken": {
+        "name": "X-Login-Token",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ISBN": {
+        "name": "isbn",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "MovieUUID": {
+        "name": "uuid",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "Info": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SignUpData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "pattern": "^(([^<>()[\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ExpireTime": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "integer"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "Book": {
+        "type": "object",
+        "properties": {
+          "isbn": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "publishedDate": {
+            "type": "integer"
+          }
+        }
+      },
+      "BookReview": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer"
+          },
+          "review": {
+            "type": "string"
+          }
+        }
+      },
+      "BookReviews": {
+        "type": "object",
+        "properties": {
+          "book": {
+            "$ref": "#/components/schemas/Book"
+          },
+          "reviews": {
+            "type": "array",
+            "items": [
+              {
+                "$ref": "#/components/schemas/BookReview"
+              }
+            ]
+          }
+        }
+      },
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "publishedYear": {
+            "type": "integer"
+          },
+          "director": {
+            "type": "string"
+          },
+          "actors": {
+            "type": "string"
+          }
+        }
+      },
+      "MovieReview": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "score": {
+            "type": "integer"
+          },
+          "review": {
+            "type": "string"
+          }
+        }
+      },
+      "MovieReviews": {
+        "type": "object",
+        "properties": {
+          "movie": {
+            "$ref": "#/components/schemas/Movie"
+          },
+          "reviews": {
+            "type": "array",
+            "items": [
+              {
+                "$ref": "#/components/schemas/MovieReview"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
