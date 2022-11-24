@@ -13,18 +13,18 @@
     "/login": {
       "description": "Get Login Token",
       "get": {
-        "operationId": "login",
+        "operationId": "GetLoginToken",
         "parameters": [
           {
-            "$ref": "#/components/parameters/Email"
+            "$ref": "#/components/parameters/QSEmail"
           },
           {
-            "$ref": "#/components/parameters/Password"
+            "$ref": "#/components/parameters/QSPassword"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully Responses",
+            "description": "Response",
             "content": {
               "application/json": {
                 "schema": {
@@ -37,11 +37,7 @@
                       "type": "object",
                       "properties": {
                         "token": {
-                          "type": "string",
-                          "description": "Login Token"
-                        },
-                        "tokenExpireTime": {
-                          "$ref": "#/components/schemas/ExpireTime"
+                          "$ref": "#/components/schemas/Token"
                         }
                       }
                     }
@@ -56,7 +52,7 @@
     "/signup": {
       "description": "Sign Up New User",
       "post": {
-        "operationId": "signup",
+        "operationId": "SignUpNewUser",
         "requestBody": {
           "content": {
             "application/json": {
@@ -100,9 +96,9 @@
       }
     },
     "/signup/auth": {
-      "description": "Verifying Sent E-Mail Sign Up Code",
+      "description": "Verifying E-Mail Sign Up Code",
       "post": {
-        "operationId": "signupMailCodeVerifying",
+        "operationId": "VerifySignUpCode",
         "requestBody": {
           "content": {
             "application/json": {
@@ -122,7 +118,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfully Responses",
+            "description": "Response",
             "content": {
               "application/json": {
                 "schema": {
@@ -138,7 +134,7 @@
                           "type": "string"
                         },
                         "loginToken": {
-                          "type": "string"
+                          "$ref": "#/components/schemas/Token"
                         }
                       }
                     }
@@ -153,6 +149,7 @@
     "/signup/resend": {
       "description": "Re-Send Sign Up E-Mail",
       "post": {
+        "operationId": "ReSendSignUpMail",
         "requestBody": {
           "content": {
             "application/json": {
@@ -195,36 +192,401 @@
       }
     },
     "/search/book": {
-      "description": "Search Book"
+      "description": "Search Book",
+      "get": {
+        "operationId": "SearchBook",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/QSTitle"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "$ref": "#/components/schemas/Book"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/search/movie": {
-      "description": "Search Movie"
+      "description": "Search Movie",
+      "get": {
+        "operationId": "SearchMovie",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/QSTitle"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "$ref": "#/components/schemas/Movie"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/user": {
-      "description": "About User Info"
+      "description": "About User Info",
+      "get": {
+        "operationId": "GetUserInformation",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          },
+          {
+            "name": "books",
+            "description": "With Book Reviews. Default Value is False",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "movies",
+            "description": "With Movie Reviews. Default Value is False",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        "books": {
+                          "$ref": "#/components/schemas/BookReviews"
+                        },
+                        "movies": {
+                          "$ref": "#/components/schemas/MovieReviews"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/user/review/books": {
-      "description": "User Book Reviews"
+      "description": "User Book Reviews",
+      "get": {
+        "operationId": "GetUserBookReviews",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "reviews": {
+                        "$ref": "#/components/schemas/UserBookReviews"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/user/review/movies": {
-      "description": "User Movie Reviews"
+      "description": "User Movie Reviews",
+      "get": {
+        "operationId": "GetUserMovieReviews",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reviews": {
+                          "$ref": "#/components/schemas/UserMovieReviews"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/book/{isbn}": {
-      "description": "Book Details With Public User Reviews"
+      "description": "Book Details With Public User Reviews",
+      "get": {
+        "operationId": "GetBookInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          },
+          {
+            "$ref": "#/components/parameters/PPIsbn"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "book": {
+                        "$ref": "#/components/schemas/Book"
+                      },
+                      "myReview": {
+                        "$ref": "#/components/schemas/ClientSendableReview"
+                      },
+                      "reviews": {
+                        "$ref": "#/components/schemas/BookReviews"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/movie/{uuid}": {
-      "description": "Movie Details With Public User Reviews"
+      "description": "Movie Details With Public User Reviews",
+      "get": {
+        "operationId": "GetMovieInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          },
+          {
+            "$ref": "#/components/parameters/PPMovieUUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "movie": {
+                          "$ref": "#/components/schemas/Movie"
+                        },
+                        "myReview": {
+                          "$ref": "#/components/schemas/ClientSendableReview"
+                        },
+                        "reviews": {
+                          "$ref": "#/components/schemas/MovieReviews"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/book/{isbn}/review": {
-      "description": "Send or Edit Review About Book"
+      "description": "Send or Edit Review About Book",
+      "post": {
+        "operationId": "PostBookReview",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          },
+          {
+            "$ref": "#/components/parameters/PPIsbn"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientSendableReview"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sentReview": {
+                          "$ref": "#/components/schemas/ClientSendableReview"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/movie/{uuid}/review": {
-      "description": "Send or Edit Review About Movie"
+      "description": "Send or Edit Review About Movie",
+      "post": {
+        "operationId": "PostMovieReview",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HLoginToken"
+          },
+          {
+            "$ref": "#/components/parameters/PPMovieUUID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientSendableReview"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "$ref": "#/components/schemas/Info"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sentReview": {
+                          "$ref": "#/components/schemas/ClientSendableReview"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "parameters": {
-      "Email": {
+      "QSEmail": {
         "name": "email",
         "in": "query",
         "required": true,
@@ -232,7 +594,7 @@
           "type": "string"
         }
       },
-      "Password": {
+      "QSPassword": {
         "name": "password",
         "in": "query",
         "required": true,
@@ -240,7 +602,7 @@
           "type": "string"
         }
       },
-      "LoginToken": {
+      "HLoginToken": {
         "name": "X-Login-Token",
         "in": "header",
         "required": true,
@@ -248,7 +610,7 @@
           "type": "string"
         }
       },
-      "ISBN": {
+      "PPIsbn": {
         "name": "isbn",
         "in": "path",
         "required": true,
@@ -256,9 +618,17 @@
           "type": "integer"
         }
       },
-      "MovieUUID": {
+      "PPMovieUUID": {
         "name": "uuid",
         "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "QSTitle": {
+        "name": "title",
+        "in": "query",
         "required": true,
         "schema": {
           "type": "string"
@@ -289,6 +659,17 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "expireTime": {
+            "$ref": "#/components/schemas/ExpireTime"
           }
         }
       },
@@ -351,9 +732,6 @@
       "BookReviews": {
         "type": "object",
         "properties": {
-          "book": {
-            "$ref": "#/components/schemas/Book"
-          },
           "reviews": {
             "type": "array",
             "items": [
@@ -363,6 +741,22 @@
             ]
           }
         }
+      },
+      "UserBookReviews": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "book": {
+                "$ref": "#/components/schemas/Book"
+              },
+              "review": {
+                "$ref": "#/components/schemas/BookReview"
+              }
+            }
+          }
+        ]
       },
       "Movie": {
         "type": "object",
@@ -404,9 +798,6 @@
       "MovieReviews": {
         "type": "object",
         "properties": {
-          "movie": {
-            "$ref": "#/components/schemas/Movie"
-          },
           "reviews": {
             "type": "array",
             "items": [
@@ -414,6 +805,36 @@
                 "$ref": "#/components/schemas/MovieReview"
               }
             ]
+          }
+        }
+      },
+      "UserMovieReviews": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "movie": {
+                "$ref": "#/components/schemas/Movie"
+              },
+              "review": {
+                "$ref": "#/components/schemas/MovieReview"
+              }
+            }
+          }
+        ]
+      },
+      "ClientSendableReview": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer"
+          },
+          "review": {
+            "type": "string"
+          },
+          "publicVisibility": {
+            "type": "boolean"
           }
         }
       }
