@@ -3,9 +3,13 @@ import { dirname, relative, resolve } from "path";
 import { fileURLToPath } from "url";
 import Router from "./type/Router";
 
+// Same to __filename (Node.js ES Module Resolution Make __dirname Not Working)
 const FILE_PATH = fileURLToPath(import.meta.url);
 const ROUTER_ROOT_PATH = resolve(dirname(FILE_PATH), "router");
 
+/**
+ * Async Generator Function for Traverse Directory Recursively and Get Full File Path
+ */
 async function* getFiles(dir: string): AsyncGenerator<string> {
     const dirents = await readdir(dir, { withFileTypes: true });
     for (const dirent of dirents) {
@@ -18,6 +22,9 @@ async function* getFiles(dir: string): AsyncGenerator<string> {
     }
 }
 
+/**
+ * Load Routers Dynamically
+ */
 const loadRouters = async (): Promise<Router[]> => {
     const routers: Router[] = [];
 
