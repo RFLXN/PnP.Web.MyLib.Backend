@@ -1,6 +1,4 @@
-import { NextFunction, RequestHandler, Response } from "express";
-
-type RouterHandler = (req: Request, res: Response, next: NextFunction) => void;
+import { RequestHandler } from "express";
 
 type Method = "all" | "get" | "post" | "put" | "delete" | "patch" | "options" | "head";
 

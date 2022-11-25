@@ -53,7 +53,8 @@
         "code": 120
       }
     ],
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "array-callback-return": "off"
   },
   "env": {
     "node": true

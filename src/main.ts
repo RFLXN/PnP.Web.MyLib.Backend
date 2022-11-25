@@ -22,7 +22,7 @@ app.use(express.json());
 const routers = await loadRouters();
 
 // And Apply Routers
-routers.forEach((router) => {
+routers.map((router) => {
     app[router.method](router.path, router.handler);
     console.log(`Apply Router: ${router.path}`);
 });
