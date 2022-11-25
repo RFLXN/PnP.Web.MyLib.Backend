@@ -22,5 +22,5 @@
     * [View in Postman](https://www.postman.com/cryosat-geoscientist-62068423/workspace/my-workspace/api/c44990c1-325b-4681-933c-8746353ebb6b)
     * [Raw OpenAPI JSON](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/openapi.json)
 * DB Structure
-    * [Entity Relation Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/ERD.png)
+    * [Entity Relationship Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/ERD.png)
 
