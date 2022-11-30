@@ -21,14 +21,12 @@
     "pretest": "yarpm run build",
     "generate-api-docs": "openapi-generator-cli generate -i ./document/openapi.json -g html2 -o ./document/api-docs --skip-validate-spec",
     "start:apidoc": "concurrently \"node --experimental-specifier-resolution=node ./dist/serve-api-docs.js\" \"start http://localhost:3001/\"",
-    "prestart:apidoc": "yarpm run build"
+    "prestart:apidoc": "yarpm run generate-api-docs && yarpm run build"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/express": "^4.17.14",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
-    "concurrently": "^7.6.0",
     "eslint": "8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
