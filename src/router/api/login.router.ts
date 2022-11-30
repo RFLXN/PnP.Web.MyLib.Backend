@@ -11,7 +11,10 @@ const handler: RequestHandler = async (req, res) => {
 
     res.status(200)
         .contentType(HttpContentType.ApplicationJson)
-        .json({});
+        .json({
+            email,
+            password
+        });
 };
 
 export { path, method, handler };

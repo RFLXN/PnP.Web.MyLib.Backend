@@ -21,16 +21,19 @@
 * API Specification
     * [View in Postman](https://www.postman.com/cryosat-geoscientist-62068423/workspace/pnp-web-mylib-backend/api/c44990c1-325b-4681-933c-8746353ebb6b)
     * [Raw OpenAPI JSON](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/openapi.json)
+    * or Run Script `yarpm run start:apidoc` for Local Hosted HTML API Document
 * DB Structure
     * [Entity Relationship Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/ERD.png)
 
 ## Project Structure
 
-* `dist/`: JS Source Codes that Built from `src/` (`yarn run start` for Start Server)
+* `dist/`: JS Source Codes that Built from `src/` (`yarpm run start` for Start Server)
 * `document/`: Design Documents
-* `.eslintrc.json`: ESList Configuration File (`yarn run lint:fix` for Lint `/src` Code)
-* `clear-dist.js`: Delete `/dist` for Clean-Build (`yarn run clear-dist` for Delete `/dist`)
-* `src/`: Typescript Source Codes (`yarn run build` for Build to JS)
+    * `openapi.json`: OpenAPI 3.1 JSON File
+    * `api-docs/index.html`: HTML API Document (`yarpm run generate-api-docs` for Generate HTML from `openapi.json`)
+* `.eslintrc.json`: ESList Configuration File (`yarpm run lint:fix` for Lint `/src` Code)
+* `clear-dist.js`: Delete `/dist` for Clean-Build (`yarpm run clear-dist` for Delete `/dist`)
+* `src/`: Typescript Source Codes (`yarpm run build` for Build to JS)
     * `router/`: Express.js Routers
     * `util/`: Utility Functions
     * `type/`: Types/Interfaces for Typescript (This Will be Ignored When Runtime)
