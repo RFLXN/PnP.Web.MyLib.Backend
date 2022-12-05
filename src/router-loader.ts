@@ -1,11 +1,13 @@
 import { readdir } from "fs/promises";
-import { dirname, relative, resolve } from "path";
+import { relative, resolve } from "path";
 import { fileURLToPath } from "url";
 import Router from "./type/Router";
+import { PROJECT_ROOT } from "./util/project-paths";
+import logger from "./logger";
 
 // Same to __filename (Node.js ES Module Resolution Make __dirname Not Working)
 const FILE_PATH = fileURLToPath(import.meta.url);
-const ROUTER_ROOT_PATH = resolve(dirname(FILE_PATH), "router");
+const ROUTER_ROOT_PATH = resolve(PROJECT_ROOT, "router");
 
 /**
  * Async Generator Function for Traverse Directory Recursively and Get Full File Path
@@ -40,10 +42,10 @@ const loadRouters = async (): Promise<Router[]> => {
                     path: raw.path,
                     handler: raw.handler
                 });
-                console.log(`Load Router: '${raw.path}' from '${file}'`);
+                logger.info(`Load Router: '${raw.path}' from '${file}'`);
             } catch (e) {
-                console.error(`Failed to Import Router: ${file}`);
-                console.error(e);
+                logger.error(`Failed to Import Router: ${file}`);
+                logger.error(e);
             }
         }
     }

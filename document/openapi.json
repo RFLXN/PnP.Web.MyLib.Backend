@@ -712,6 +712,9 @@
           },
           "publishedDate": {
             "type": "integer"
+          },
+          "thumbnail": {
+            "type": "string"
           }
         }
       },
