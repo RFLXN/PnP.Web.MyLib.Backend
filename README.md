@@ -40,3 +40,13 @@
     * `db/`: Database Functions
     * `router-loader.ts`: Function for Load `router/`  Dynamically
     * `main.ts`: Main Function for Run Server
+
+## Dependencies
+
+* concurrently: for package.json scripts
+* yarpm: package.json scripts Executor (npm or yarn) Resolver
+* express: Web Application Server
+* node-fetch: fetch() API for Node.js
+* typeorm: Relational Database Object Relation Mapper for Typescript
+* typescript: Typescript
+* eslint: Linter for TS/JS
