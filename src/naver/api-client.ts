@@ -1,8 +1,9 @@
 import { Headers } from "node-fetch";
 import fetchJson from "../util/fetch-json";
 import getObjectKeys from "../util/object-key";
-import { SearchBookResult } from "../type/NaverApiExecuteResult";
+import { SearchBookResult, SearchMovieResult } from "../type/NaverApiExecuteResult";
 import logger from "../logger";
+import { NaverApiMovieCountry, NaverApiMovieGenre } from "../type/NaverApiMovieEnum";
 
 type SearchOption = Record<string, string | number>;
 
@@ -25,12 +26,45 @@ interface BookSearchOption extends SearchOption {
     sort?: "sim" | "date";
 }
 
+interface MovieSearchOption extends SearchOption {
+    /**
+     * Search String
+     */
+    query: string;
+    /**
+     * Max Search Numbers (10~100)
+     */
+    display?: number;
+    /**
+     * Search Page Start Index (1~100)
+     */
+    start?: number;
+    /**
+     * Movie Genre Code
+     */
+    genre?: NaverApiMovieGenre | keyof typeof NaverApiMovieGenre;
+    /**
+     * National Code
+     */
+    country?: NaverApiMovieCountry | keyof typeof NaverApiMovieCountry;
+    /**
+     * Published Date Search from (format: yyyy)
+     */
+    yearfrom?: number;
+    /**
+     * Published Date Search to (format: yyyy)
+     */
+    yearto?: number;
+}
+
 enum ApiPath {
-    SearchBook = "/search/book.json"
+    SearchBook = "/search/book.json",
+    SearchMovie = "/search/movie.json"
 }
 
 enum ApiMethod {
-    SearchBook = "GET"
+    SearchBook = "GET",
+    SearchMovie = "GET"
 }
 
 type ApiKey = keyof typeof ApiMethod | keyof typeof ApiPath;
@@ -63,11 +97,44 @@ class NaverApiClient {
 
     /**
      * Search Book from Naver API
+     * (https://developers.naver.com/docs/serviceapi/search/book/book.md#%EC%B1%85)
      * @param option {BookSearchOption} Book Search Options
+     * @return {Promise<SearchBookResult>} Search Result
      */
     public async searchBook(option: BookSearchOption) {
         const key = "SearchBook";
         return this.fetch<BookSearchOption, SearchBookResult>(key, option);
+    }
+
+    /**
+     * Search Movie from Naver API
+     * (https://developers.naver.com/docs/serviceapi/search/movie/movie.md#%EC%98%81%ED%99%94)
+     * @param option {MovieSearchOption} Movie Search Options
+     * @return {Promise<SearchMovieResult>} Search Result
+     */
+    public async searchMovie(option: MovieSearchOption) {
+        const key = "SearchMovie";
+        const processedOption = option;
+
+        if (option.country) {
+            const { country } = option;
+            const enumKeys = getObjectKeys(NaverApiMovieCountry);
+
+            if (enumKeys.includes(country as keyof typeof NaverApiMovieCountry)) {
+                processedOption.country = NaverApiMovieCountry[country as keyof typeof NaverApiMovieCountry];
+            }
+        }
+
+        if (option.genre) {
+            const { genre } = option;
+            const enumKeys = getObjectKeys(NaverApiMovieGenre);
+
+            if (enumKeys.includes(genre as keyof typeof NaverApiMovieGenre)) {
+                processedOption.genre = NaverApiMovieGenre[genre as keyof typeof NaverApiMovieGenre];
+            }
+        }
+
+        return this.fetch<MovieSearchOption, SearchMovieResult>(key, processedOption);
     }
 
     private createURL<O extends SearchOption>(key: ApiKey, option: O) {
@@ -107,4 +174,4 @@ class NaverApiClient {
 }
 
 export default NaverApiClient;
-export { BookSearchOption };
+export { BookSearchOption, MovieSearchOption };

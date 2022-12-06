@@ -1,9 +1,9 @@
-interface HttpResponseBody {
+interface HttpResponseBody<T> {
     info: {
         success: boolean;
         message: string;
     }
-    data?: any;
+    data?: T;
 }
 
 export default HttpResponseBody;

@@ -1,3 +1,6 @@
+/**
+ * HTTP MIME Types
+ */
 enum HttpContentType {
     ApplicationJson = "application/json"
 }

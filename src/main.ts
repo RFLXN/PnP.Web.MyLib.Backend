@@ -31,6 +31,7 @@ routers.map((router) => {
             router.handler(req, res, next);
         } catch (e) {
             logger.error(e);
+            next(e);
         }
     });
     logger.info(`Apply Router: ${router.path}`);

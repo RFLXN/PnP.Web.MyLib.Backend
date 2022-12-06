@@ -779,7 +779,10 @@
           "director": {
             "type": "string"
           },
-          "actors": {
+          "actor": {
+            "type": "string"
+          },
+          "thumbnail": {
             "type": "string"
           }
         }

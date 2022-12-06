@@ -58,4 +58,21 @@ interface SearchBookResult {
     }[]
 }
 
-export { SearchBookResult };
+interface SearchMovieResult {
+    lastBuildDate: string;
+    total: number;
+    start: number;
+    display: number;
+    items: {
+        title: string;
+        link: string;
+        image: string;
+        subtitle: string;
+        pubDate: string;
+        director: string;
+        actor: string;
+        userRating: string;
+    }[]
+}
+
+export { SearchBookResult, SearchMovieResult };
