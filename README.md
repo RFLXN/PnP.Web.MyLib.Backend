@@ -23,10 +23,10 @@
     * [Raw OpenAPI JSON](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/openapi.json)
     * or Run Script `yarpm run start:apidoc` for Local Hosted HTML API Document
 * DB Structure
-    * [Entity Relationship Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/ERD.png)
+    * [Entity Relationship Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/ERD.png)    
       ![Image](https://raw.githubusercontent.com/jhchoi123/PnP.Web.MyLib.Backend/master/document/ERD.png)
 * Server Architecture
-    * [Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/Server%20Architecture%20Diagram.png)
+    * [Diagram](https://github.com/jhchoi123/PnP.Web.MyLib.Backend/blob/master/document/Server%20Architecture%20Diagram.png)    
       ![Image](https://raw.githubusercontent.com/jhchoi123/PnP.Web.MyLib.Backend/master/document/Server%20Architecture%20Diagram.png)
 
 ## Project Structure
