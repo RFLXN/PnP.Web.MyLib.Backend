@@ -57,11 +57,19 @@ server.on("listening", () => {
 
 // Server Request Handler for Logging
 server.on("request", (req: IncomingMessage, res: ServerResponse) => {
-    const { remoteAddress } = req.socket;
     const {
         url,
-        method
+        method,
+        headers,
+        socket
     } = req;
+    let { remoteAddress } = socket;
+
+    // for Nginx Reverse Proxy
+    if (headers["X-Forwarded-For"]) {
+        remoteAddress = headers["X-Forwarded-For"] as string;
+    }
+
     logger.info(`Handle Request from '${remoteAddress}' to '${method} ${url}'`);
 });
 
